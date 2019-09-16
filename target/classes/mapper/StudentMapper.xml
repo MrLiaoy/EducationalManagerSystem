@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ems.mapper.StudentMapper" >
+  <resultMap id="BaseResultMap" type="com.ems.entity.Student" >
+    <constructor >
+      <idArg column="s_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="s_name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="s_password" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="s_sex" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="s_start_year" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="s_end_year" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="s_class" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="s_state" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    s_id, s_name, s_password, s_sex, s_start_year, s_end_year, s_class, s_state
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_student
+    where s_id = #{sId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_student
+    where s_id = #{sId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.ems.entity.Student" >
+    insert into t_student (s_id, s_name, s_password, 
+      s_sex, s_start_year, s_end_year, 
+      s_class, s_state)
+    values (#{sId,jdbcType=VARCHAR}, #{sName,jdbcType=VARCHAR}, #{sPassword,jdbcType=VARCHAR}, 
+      #{sSex,jdbcType=VARCHAR}, #{sStartYear,jdbcType=VARCHAR}, #{sEndYear,jdbcType=VARCHAR}, 
+      #{sClass,jdbcType=VARCHAR}, #{sState,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ems.entity.Student" >
+    insert into t_student
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sId != null" >
+        s_id,
+      </if>
+      <if test="sName != null" >
+        s_name,
+      </if>
+      <if test="sPassword != null" >
+        s_password,
+      </if>
+      <if test="sSex != null" >
+        s_sex,
+      </if>
+      <if test="sStartYear != null" >
+        s_start_year,
+      </if>
+      <if test="sEndYear != null" >
+        s_end_year,
+      </if>
+      <if test="sClass != null" >
+        s_class,
+      </if>
+      <if test="sState != null" >
+        s_state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sId != null" >
+        #{sId,jdbcType=VARCHAR},
+      </if>
+      <if test="sName != null" >
+        #{sName,jdbcType=VARCHAR},
+      </if>
+      <if test="sPassword != null" >
+        #{sPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="sSex != null" >
+        #{sSex,jdbcType=VARCHAR},
+      </if>
+      <if test="sStartYear != null" >
+        #{sStartYear,jdbcType=VARCHAR},
+      </if>
+      <if test="sEndYear != null" >
+        #{sEndYear,jdbcType=VARCHAR},
+      </if>
+      <if test="sClass != null" >
+        #{sClass,jdbcType=VARCHAR},
+      </if>
+      <if test="sState != null" >
+        #{sState,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ems.entity.Student" >
+    update t_student
+    <set >
+      <if test="sName != null" >
+        s_name = #{sName,jdbcType=VARCHAR},
+      </if>
+      <if test="sPassword != null" >
+        s_password = #{sPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="sSex != null" >
+        s_sex = #{sSex,jdbcType=VARCHAR},
+      </if>
+      <if test="sStartYear != null" >
+        s_start_year = #{sStartYear,jdbcType=VARCHAR},
+      </if>
+      <if test="sEndYear != null" >
+        s_end_year = #{sEndYear,jdbcType=VARCHAR},
+      </if>
+      <if test="sClass != null" >
+        s_class = #{sClass,jdbcType=VARCHAR},
+      </if>
+      <if test="sState != null" >
+        s_state = #{sState,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where s_id = #{sId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ems.entity.Student" >
+    update t_student
+    set s_name = #{sName,jdbcType=VARCHAR},
+      s_password = #{sPassword,jdbcType=VARCHAR},
+      s_sex = #{sSex,jdbcType=VARCHAR},
+      s_start_year = #{sStartYear,jdbcType=VARCHAR},
+      s_end_year = #{sEndYear,jdbcType=VARCHAR},
+      s_class = #{sClass,jdbcType=VARCHAR},
+      s_state = #{sState,jdbcType=VARCHAR}
+    where s_id = #{sId,jdbcType=VARCHAR}
+  </update>
+
+
+  <!--追加-->
+  <select id="queryStudentByPage" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT * FROM t_student LIMIT #{0},#{1}
+  </select>
+  
+  <select id="totalStudentCount" resultType="java.lang.Integer">
+    SELECT COUNT(*) FROM t_student
+  </select>
+
+  <!--##############################################################################-->
+
+
+  <select id="selectStudentsByCourse" resultMap="BaseResultMap"  >
+   SELECT
+    t_student.s_id,
+    t_student.s_name,
+    t_student.s_password,
+    t_student.s_sex,
+    t_student.s_start_year,
+    t_student.s_end_year,
+    t_student.s_class,
+    t_student.s_state
+    FROM
+    t_student
+      INNER JOIN t_student_course ON t_student.s_id = t_student_course.s_id
+      INNER JOIN t_course ON t_student_course.c_id = t_course.c_id
+      WHERE t_course.c_id = #{cId,jdbcType=INTEGER}
+  </select>
+
+  <!--*********查询所有学生信息********************-->
+  <select id="selectStudent"  resultMap="BaseResultMap">
+    SELECT * FROM t_student
+  </select>
+  <!--**************通过sid查询学生信息***********-->
+  <select id="selectStudentById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT * FROM t_student
+    where s_id = #{sId,jdbcType=VARCHAR}
+  </select>
+  <!--*****************************-->
+
+  <!--退课-->
+  <delete id="dropCourseCourseByS_c_id" parameterType="java.lang.Integer" >
+    delete from t_student_course
+    where s_c_id = #{sCId,jdbcType=INTEGER}
+  </delete>
+
+<!--修改选课表中的t_score字段-->
+  <update id="updateT_scoreByS_c_id" >
+    update t_student_course
+    set t_score = #{0}
+    where s_c_id = #{1}
+  </update>
+
+</mapper>
